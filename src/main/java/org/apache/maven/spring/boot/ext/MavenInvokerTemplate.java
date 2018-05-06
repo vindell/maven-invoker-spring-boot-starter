@@ -80,12 +80,12 @@ public class MavenInvokerTemplate {
 	}
 
 	public InvocationResult deploy(String file, String groupId, String artifactId, String version, String packaging,
-			String url, String repositoryId) throws MavenInvocationException {
-		return this.deploy(null, file, groupId, artifactId, version, packaging, url, repositoryId);
+			String repositoryUrl, String repositoryId) throws MavenInvocationException {
+		return this.deploy(null, file, groupId, artifactId, version, packaging, repositoryUrl, repositoryId);
 	}
-
+	
 	public InvocationResult deploy(String basedir, String file, String groupId, String artifactId, String version,
-			String packaging, String url, String repositoryId) throws MavenInvocationException {
+			String packaging, String repositoryUrl, String repositoryId) throws MavenInvocationException {
 
 		InvocationRequest request = properties.newRequest();
 		request.setErrorHandler(errorHandler);
@@ -95,7 +95,7 @@ public class MavenInvokerTemplate {
 		}
 
 		request.setGoals(Arrays.asList("deploy:deploy-file", "-DgroupId=" + groupId, "-DartifactId=" + artifactId,
-				"-Dversion=" + version, "-Dpackaging=" + packaging, "-Dfile=" + file, "-Durl=" + url,
+				"-Dversion=" + version, "-Dpackaging=" + packaging, "-Dfile=" + file, "-Durl=" + repositoryUrl,
 				"-DrepositoryId=" + repositoryId));
 
 		return mavenInvoker.execute(request);
