@@ -370,6 +370,7 @@
 		<plexus-classworlds.version>2.5.2</plexus-classworlds.version>
 		<plexus-digest.version>1.1</plexus-digest.version>
 		<plexus-utils.version>3.1.0</plexus-utils.version>
+		<maven-model.version>3.5.3</maven-model.version>
 		<maven-native.version>3.0</maven-native.version>
 		<maven-invoker.version>3.0.0</maven-invoker.version>
 		<maven-shared.version>3.2.1</maven-shared.version>
@@ -379,7 +380,6 @@
 		<maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
 		<maven-surefire-plugin.vertsion>2.21.0</maven-surefire-plugin.vertsion>
 		<maven-nexus-staging-plugin.version>1.6.8</maven-nexus-staging-plugin.version>
-		<wagon.version>3.0.0</wagon.version>
 	</properties>
 
 	<dependencies>
@@ -440,6 +440,11 @@
 					<artifactId>plexus-component-annotations</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.maven</groupId>
+		    <artifactId>maven-model</artifactId>
+		    <version>${maven-model.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.plexus</groupId>

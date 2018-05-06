@@ -16,14 +16,23 @@
 package org.apache.maven.spring.boot.ext;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.shared.invoker.InvocationOutputHandler;
 import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.InvocationResult;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.apache.maven.spring.boot.MavenInvokerProperties;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.springframework.util.StringUtils;
 
 /**
@@ -37,7 +46,8 @@ public class MavenInvokerTemplate {
 	private InvocationOutputHandler errorHandler;
 	private Invoker mavenInvoker;
 	private MavenInvokerProperties properties;
-
+	private MavenXpp3Reader modelReader = new MavenXpp3Reader();
+	
 	public MavenInvokerTemplate(InvocationOutputHandler outputHandler, InvocationOutputHandler errorHandler,
 			Invoker mavenInvoker, MavenInvokerProperties invokerProperties) {
 		this.outputHandler = outputHandler;
@@ -106,5 +116,22 @@ public class MavenInvokerTemplate {
 	public InvocationResult execute(String basedir, String... goals) throws MavenInvocationException {
 		return this.execute(new File(basedir), goals);
 	}
-
+	
+	public Model readModel(File file) throws XmlPullParserException, IOException {
+		try (
+			ZipFile zipFile = new ZipFile(file)) {
+			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = entries.nextElement();
+				//System.out.println(entry.getName());
+				if (entry.getName().endsWith("pom.xml")) {
+					InputStream input = zipFile.getInputStream(entry);
+					Model model = modelReader.read(new InputStreamReader(input));
+					return model;
+				}
+			}
+		} 
+		throw new IOException("Not a maven project, unable to parse version information.");
+	}
+	
 }
