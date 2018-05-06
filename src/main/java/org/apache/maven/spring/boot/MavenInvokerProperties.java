@@ -16,6 +16,7 @@
 package org.apache.maven.spring.boot;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -120,6 +121,10 @@ public class MavenInvokerProperties {
 	 */
 	private String mavenOpts;
 	/**
+	 * Maven Repository collection;
+	 */
+	private Map<String, String> mavenRepositorys = new HashMap<String, String>();
+	/**
 	 * Indicates whether Maven should check for plugin updates. By default, plugin
 	 * updates are not suppressed. <code>true</code> if plugin updates should be
 	 * suppressed, <code>false</code> otherwise.
@@ -194,7 +199,6 @@ public class MavenInvokerProperties {
 	 * not set.
 	 */
 	private Map<String, String> shellEnvironments;
-
 	/**
 	 * Thread count, for instance 2.0C where C is core multiplied Equivalent of -T or --threads
 	 * note: available since Maven3
@@ -307,6 +311,14 @@ public class MavenInvokerProperties {
 
 	public void setMavenOpts(String mavenOpts) {
 		this.mavenOpts = mavenOpts;
+	}
+
+	public Map<String, String> getMavenRepositorys() {
+		return mavenRepositorys;
+	}
+
+	public void setMavenRepositorys(Map<String, String> mavenRepositorys) {
+		this.mavenRepositorys = mavenRepositorys;
 	}
 
 	public boolean isNonPluginUpdates() {
