@@ -13,7 +13,7 @@ Spring Boot Starter For Maven Invoker
 <dependency>
 	<groupId>${project.groupId}</groupId>
 	<artifactId>spring-boot-starter-maven-invoker</artifactId>
-	<version>${project.version}</version>
+	<version>1.0.2.RELEASE</version>
 </dependency>
 ```
 
