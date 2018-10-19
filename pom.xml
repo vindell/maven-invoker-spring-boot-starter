@@ -370,9 +370,9 @@
 		<plexus-classworlds.version>2.5.2</plexus-classworlds.version>
 		<plexus-digest.version>1.1</plexus-digest.version>
 		<plexus-utils.version>3.1.0</plexus-utils.version>
-		<maven-model.version>3.5.3</maven-model.version>
+		<maven-model.version>3.5.4</maven-model.version>
 		<maven-native.version>3.0</maven-native.version>
-		<maven-invoker.version>3.0.0</maven-invoker.version>
+		<maven-invoker.version>3.0.1</maven-invoker.version>
 		<maven-shared.version>3.2.1</maven-shared.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
