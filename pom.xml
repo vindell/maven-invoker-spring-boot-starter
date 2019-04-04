@@ -366,11 +366,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<commons-io.version>2.6</commons-io.version>
-		<plexus-annotations.version>1.7.1</plexus-annotations.version>
-		<plexus-classworlds.version>2.5.2</plexus-classworlds.version>
+		<plexus-annotations.version>2.0.0</plexus-annotations.version>
+		<plexus-classworlds.version>2.6.0</plexus-classworlds.version>
 		<plexus-digest.version>1.1</plexus-digest.version>
-		<plexus-utils.version>3.1.0</plexus-utils.version>
-		<maven-model.version>3.5.4</maven-model.version>
+		<plexus-utils.version>3.2.0</plexus-utils.version>
+		<maven-model.version>3.6.0</maven-model.version>
 		<maven-native.version>3.0</maven-native.version>
 		<maven-invoker.version>3.0.1</maven-invoker.version>
 		<maven-shared.version>3.2.1</maven-shared.version>
@@ -446,6 +446,12 @@
 		    <artifactId>maven-model</artifactId>
 		    <version>${maven-model.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.maven/maven-model-builder -->
+		<!-- <dependency>
+		    <groupId>org.apache.maven</groupId>
+		    <artifactId>maven-model-builder</artifactId>
+		    <version>${maven-model.version}</version>
+		</dependency> -->
 		<dependency>
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-utils</artifactId>

@@ -57,8 +57,7 @@ public class MavenInvokerTemplate_Test {
 				invoker.setLocalRepositoryDirectory(localRepositoryDirectory);
 			}
 		} else {
-			File localRepositoryDirectory = new File(FileUtils.getUserDirectory(),
-					".m2" + File.separator + "repository");
+			File localRepositoryDirectory = new File(FileUtils.getUserDirectory(), ".m2" + File.separator + "repository");
 			if (!localRepositoryDirectory.exists()) {
 				localRepositoryDirectory.mkdir();
 			}
@@ -81,7 +80,7 @@ public class MavenInvokerTemplate_Test {
 		return invoker;
 	}
 
-	@Test
+	//@Test
 	public void testInstall() throws MavenInvocationException {
 
 		MavenInvokerProperties properties = new MavenInvokerProperties();
@@ -93,14 +92,15 @@ public class MavenInvokerTemplate_Test {
 		MavenInvokerTemplate template = new MavenInvokerTemplate(outputHandler, errorHandler, mavenInvoker(properties),
 				properties);
 
-		// InvocationResult result = template.install("D:\\", "p6spy-3.7.0.jar", "p6spy", "p6spy", "3.7.0-xx", "jar", true, true);
-		InvocationResult result = template.install( "D:\\p6spy-3.7.0.jar", "p6spy", "p6spy", "3.7.0-xx", "jar", true, true);
+		// InvocationResult result = template.install("D:\\", "p6spy-3.8.1.jar", "p6spy", "p6spy", "3.8.1-xx", "jar", true, true);
+		InvocationResult result = template.install( "D:\\p6spy-3.8.1.jar", "p6spy", "p6spy", "3.8.1-xx", "jar", true, true);
 
 		System.out.println("ExitCode:" + result.getExitCode());
-
+		System.out.println("Exception:" + result.getExecutionException());
+		
 	}
 
-	// @Test
+	 @Test
 	public void testDeploy() throws MavenInvocationException {
 
 		MavenInvokerProperties properties = new MavenInvokerProperties();
@@ -110,14 +110,11 @@ public class MavenInvokerTemplate_Test {
 		MavenInvokerTemplate template = new MavenInvokerTemplate(outputHandler, errorHandler, mavenInvoker(properties),
 				properties);
 		
-		InvocationResult result = template.deploy("D:\\", "D:\\p6spy-3.7.0.jar", "p6spy", "p6spy", "3.7.0-xx", "jar", 
-				"-Durl=http://127.0.0.1:8082/nexus/content/repositories/thirdparty/", "-DrepositoryId=thirdparty");
-		
-		/*InvocationResult result = template.deploy("D:\\p6spy-3.7.0.jar", "p6spy", "p6spy", "D:\\3.7.0-xx", "jar", 
-				"-Durl=http://127.0.0.1:8082/nexus/content/repositories/thirdparty/", "thirdparty");*/
+		InvocationResult result = template.deploy("D:\\", "p6spy-3.8.1.jar", "p6spy", "p6spy", "3.8.1-xx", "jar", 
+				"http://127.0.0.1:8081/repository/maven-releases/", "nexus-releases");
 
 		System.out.println("ExitCode:" + result.getExitCode());
-
+		System.out.println("Exception:" + result.getExecutionException());
 	}
 
 	public void testExecute() throws MavenInvocationException {
@@ -129,13 +126,13 @@ public class MavenInvokerTemplate_Test {
 		MavenInvokerTemplate template = new MavenInvokerTemplate(outputHandler, errorHandler, mavenInvoker(properties),
 				properties);
 
-		InvocationResult result = template.execute("D:\\", "deploy:deploy-file", "-DgroupId=p6spy",
-				"-DartifactId=p6spy", "-Dversion=3.7.0-xx", "-Dpackaging=jar", "-Dfile=p6spy-3.7.0.jar",
-				"-Durl=http://10.71.19.153:8081/nexus/content/repositories/thirdparty/",
-				"-DrepositoryId=nexus-thirdparty");
+		InvocationResult result = template.execute("D:\\", "deploy:deploy-file", "p6spy",
+				"p6spy", "3.8.1-xx", "jar", "-Dfile=p6spy-3.8.1.jar",
+				"http://127.0.0.1:8081/repository/maven-releases/",
+				"nexus-releases");
 
 		System.out.println("ExitCode:" + result.getExitCode());
-
+		System.out.println("Exception:" + result.getExecutionException());
 	}
 
 }
