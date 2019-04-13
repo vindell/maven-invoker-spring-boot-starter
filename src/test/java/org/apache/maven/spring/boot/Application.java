@@ -17,7 +17,10 @@ package org.apache.maven.spring.boot;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.maven.shared.invoker.InvocationResult;
+import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.apache.maven.spring.boot.ext.MavenInvokerTemplate;
+import org.apache.maven.spring.boot.ext.MavenResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,10 +32,11 @@ public class Application {
 	private MavenInvokerTemplate mavenInvokerTemplate;
 	
 	@PostConstruct
-	private void init() {
+	private void init() throws MavenInvocationException {
 		
-		//mavenInvokerTemplate.deploy(file, groupId, artifactId, version, packaging, url, repositoryId);
-		//mavenInvokerTemplate.deploy(basedir, file, groupId, artifactId, version, packaging, url, repositoryId);
+		InvocationResult result1 = mavenInvokerTemplate.install(MavenResource.parse("D:\\p6spy-3.8.1.jar", "p6spy:p6spy:3.8.1-xx"));
+		System.out.println("ExitCode:" + result1.getExitCode());
+		System.out.println("Exception:" + result1.getExecutionException());
 		
 		//mavenInvokerTemplate.execute(basedir, goals);
 		//mavenInvokerTemplate.execute(basedir, goals);
