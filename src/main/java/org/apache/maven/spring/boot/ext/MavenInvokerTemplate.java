@@ -33,12 +33,11 @@ import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.apache.maven.spring.boot.MavenInvokerProperties;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.springframework.util.StringUtils;
+import org.springframework.util.Assert;
 
 /**
- * 基于Maven Invoker的Maven build实现，依赖于本机环境中的Maven环境
- * 
- * @author ： <a href="https://github.com/vindell">vindell</a>
+ *	 基于Maven Invoker的Maven build实现，依赖于本机环境中的Maven环境
+ * 	@author ： <a href="https://github.com/vindell">vindell</a>
  */
 public class MavenInvokerTemplate {
 
@@ -55,52 +54,48 @@ public class MavenInvokerTemplate {
 		this.mavenInvoker = mavenInvoker;
 		this.properties = invokerProperties;
 	}
-
-	public InvocationResult install(String file, String groupId, String artifactId, String version, String packaging,
-			boolean generatePom, boolean createChecksum) throws MavenInvocationException {
-		return this.install(null, file, groupId, artifactId, version, packaging, generatePom, createChecksum);
+	
+	public InvocationResult install(String filepath, String coordinates) throws MavenInvocationException {
+		Assert.notNull(coordinates, "coordinates must not be null");
+		return this.install(MavenResource.parse(filepath, coordinates));
 	}
-
-	public InvocationResult install(String basedir, String file, String groupId, String artifactId, String version,
-			String packaging, boolean generatePom, boolean createChecksum) throws MavenInvocationException {
-
-		InvocationRequest request = properties.newRequest();
-		request.setErrorHandler(errorHandler);
-		request.setOutputHandler(outputHandler);
+	
+	public InvocationResult install(MavenResource resource) throws MavenInvocationException {
 		
-		if (StringUtils.hasText(basedir)) {
-			request.setBaseDirectory(new File(basedir));
-		}
+		InvocationRequest request = properties.newRequest();
+		request.setErrorHandler(errorHandler);
+		request.setOutputHandler(outputHandler);
 
-		request.setGoals(Arrays.asList("install:install-file", "-Dfile=" + file, "-DgroupId=" + groupId,
-				"-DartifactId=" + artifactId, "-Dversion=" + version, "-Dpackaging=" + packaging,
-				"-DgeneratePom=" + generatePom, "-DcreateChecksum=" + createChecksum));
+		request.setGoals(Arrays.asList("install:install-file", "-Dfile=" + resource.getFilepath(), "-DgroupId=" + resource.getGroupId(),
+				"-DartifactId=" + resource.getArtifactId(), "-Dversion=" + resource.getVersion(), "-Dpackaging=" + resource.getExtension(),
+				"-DgeneratePom=" + resource.isGeneratePom(), "-DcreateChecksum=" + resource.isCreateChecksum()));
 
 		return mavenInvoker.execute(request);
+		
+	}
+	
+	public InvocationResult deploy(String filepath, String coordinates, String repositoryUrl, String repositoryId) throws MavenInvocationException {
+		Assert.notNull(coordinates, "coordinates must not be null");
+		MavenResource resource = MavenResource.parse(filepath, coordinates);
+		resource.setRepositoryId(repositoryId);
+		resource.setRepositoryUrl(repositoryUrl);
+		return this.deploy(resource);
 	}
 
-	public InvocationResult deploy(String file, String groupId, String artifactId, String version, String packaging,
-			String url, String repositoryId) throws MavenInvocationException {
-		return this.deploy(null, file, groupId, artifactId, version, packaging, url, repositoryId);
-	}
-
-	public InvocationResult deploy(String basedir, String file, String groupId, String artifactId, String version,
-			String packaging, String url, String repositoryId) throws MavenInvocationException {
+	public InvocationResult deploy(MavenResource resource) throws MavenInvocationException {
 
 		InvocationRequest request = properties.newRequest();
 		request.setErrorHandler(errorHandler);
 		request.setOutputHandler(outputHandler);
-		if (StringUtils.hasText(basedir)) {
-			request.setBaseDirectory(new File(basedir));
-		}
 
-		request.setGoals(Arrays.asList("deploy:deploy-file", "-DgroupId=" + groupId, "-DartifactId=" + artifactId,
-				"-Dversion=" + version, "-Dpackaging=" + packaging, "-Dfile=" + file, "-Durl=" + url,
-				"-DrepositoryId=" + repositoryId));
-
+		request.setGoals(Arrays.asList("deploy:deploy-file", "-DgroupId=" + resource.getGroupId(),
+				"-DartifactId=" + resource.getArtifactId(), "-Dversion=" + resource.getVersion(),
+				"-Dpackaging=" + resource.getExtension(), "-Dfile=" + resource.getFilepath(),
+				"-Durl=" + resource.getRepositoryUrl(), "-DrepositoryId=" + resource.getRepositoryId()));
+		
 		return mavenInvoker.execute(request);
 	}
-
+	
 	public InvocationResult execute(File basedir, String... goals) throws MavenInvocationException {
 
 		InvocationRequest request = properties.newRequest();

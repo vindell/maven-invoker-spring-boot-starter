@@ -28,6 +28,7 @@ import org.apache.maven.shared.invoker.PrintStreamHandler;
 import org.apache.maven.shared.invoker.SystemOutHandler;
 import org.apache.maven.shared.invoker.SystemOutLogger;
 import org.apache.maven.spring.boot.ext.MavenInvokerTemplate;
+import org.apache.maven.spring.boot.ext.MavenResource;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
@@ -92,8 +93,14 @@ public class MavenInvokerTemplate_Test {
 		MavenInvokerTemplate template = new MavenInvokerTemplate(outputHandler, errorHandler, mavenInvoker(properties),
 				properties);
 
-		// InvocationResult result = template.install("D:\\", "p6spy-3.8.1.jar", "p6spy", "p6spy", "3.8.1-xx", "jar", true, true);
-		InvocationResult result = template.install( "D:\\p6spy-3.8.1.jar", "p6spy", "p6spy", "3.8.1-xx", "jar", true, true);
+		InvocationResult result1 = template.install(MavenResource.parse("D:\\p6spy-3.8.1.jar", "p6spy:p6spy:3.8.1-xx"));
+		System.out.println("ExitCode:" + result1.getExitCode());
+		System.out.println("Exception:" + result1.getExecutionException());
+		
+		MavenResource resource = new MavenResource.Builder().filepath("D:\\p6spy-3.8.1.jar").groupId("p6spy")
+				.artifactId("p6spy").version("3.8.1-xx").generatePom(true).createChecksum(true).build();
+		
+		InvocationResult result = template.install(resource);
 
 		System.out.println("ExitCode:" + result.getExitCode());
 		System.out.println("Exception:" + result.getExecutionException());
@@ -110,8 +117,11 @@ public class MavenInvokerTemplate_Test {
 		MavenInvokerTemplate template = new MavenInvokerTemplate(outputHandler, errorHandler, mavenInvoker(properties),
 				properties);
 		
-		InvocationResult result = template.deploy("D:\\", "p6spy-3.8.1.jar", "p6spy", "p6spy", "3.8.1-xx", "jar", 
-				"http://127.0.0.1:8081/repository/maven-releases/", "nexus-releases");
+		MavenResource resource = new MavenResource.Builder().filepath("D:\\p6spy-3.8.1.jar").groupId("p6spy").artifactId("p6spy")
+			.version("3.8.1-xx").repositoryId("nexus-releases")
+			.repositoryUrl("http://127.0.0.1:8081/repository/maven-releases/").build();
+		
+		InvocationResult result = template.deploy(resource);
 
 		System.out.println("ExitCode:" + result.getExitCode());
 		System.out.println("Exception:" + result.getExecutionException());
