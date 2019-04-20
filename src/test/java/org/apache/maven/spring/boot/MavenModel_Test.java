@@ -61,7 +61,7 @@ public class MavenModel_Test {
 
 		MavenXpp3Reader reader = new MavenXpp3Reader();
 
-		try (ZipFile zipFile = new ZipFile("D:\\commons-pool-1.6.jar")) {
+		try (ZipFile zipFile = new ZipFile("E:\\tianyin-dsb-plugin-demo-1.0.0-SNAPSHOT.jar")) {
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = entries.nextElement();
@@ -70,12 +70,19 @@ public class MavenModel_Test {
 
 					InputStream input = zipFile.getInputStream(entry);
 					Model model = reader.read(new InputStreamReader(input));
-
+					
+					
+					
 					System.out.println("Id :" + model.getId());
 					System.out.println("GroupId :" + model.getGroupId());
 					System.out.println("ArtifactId :" + model.getArtifactId());
+					System.out.println("ArtifactId :" + model.getArtifactId());
 					System.out.println("Version :" + model.getVersion());
 
+					System.out.println("Parent GroupId :" + model.getParent().getGroupId());
+					System.out.println("Parent ArtifactId :" + model.getParent().getArtifactId());
+					System.out.println("Parent Version :" + model.getParent().getVersion());
+					
 				}
 			}
 		} catch (IOException ex) {
