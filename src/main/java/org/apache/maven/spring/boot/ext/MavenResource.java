@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils;
  * Maven coordinates</a> for a jar file containing an app/library, or a Bill of Materials pom.
  * <p>
  * To create a new instance, either use {@link Builder} to set the individual fields:
+ * </p>
  * <pre>
  * new MavenResource.Builder()
  *     .setGroupId("org.springframework.sample")
@@ -39,13 +40,12 @@ import org.springframework.util.StringUtils;
  *     .setVersion("2.0.0")
  *     .build()
  * </pre>
- * ...or use {@link #parse(String)} to parse the coordinates as a colon delimited string:
+ * ...or use {@link #parse(String,String)} to parse the coordinates as a colon delimited string:
  * <code>&lt;groupId&gt;:&lt;artifactId&gt;[:&lt;extension&gt;[:&lt;classifier&gt;]]:&lt;version&gt;</code>
  * <pre>
  * MavenResource.parse("org.springframework.sample:some-app:2.0.0);
  * MavenResource.parse("org.springframework.sample:some-app:jar:exec:2.0.0);
  * </pre>
- * </p>
  * @author David Turanski
  * @author Mark Fisher
  * @author Patrick Peralta
@@ -129,37 +129,22 @@ public class MavenResource {
 		this.repositoryId = repositoryId;
 	}
 
-	/**
-	 * @see #groupId
-	 */
 	public String getGroupId() {
 		return groupId;
 	}
 
-	/**
-	 * @see #artifactId
-	 */
 	public String getArtifactId() {
 		return artifactId;
 	}
 
-	/**
-	 * @see #extension
-	 */
 	public String getExtension() {
 		return extension;
 	}
 
-	/**
-	 * @see #version
-	 */
 	public String getClassifier() {
 		return classifier;
 	}
 
-	/**
-	 * @see #version
-	 */
 	public String getVersion() {
 		return version;
 	}
