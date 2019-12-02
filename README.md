@@ -1,4 +1,4 @@
-# spring-boot-starter-maven-invoker
+# maven-invoker-spring-boot-starter
 Spring Boot Starter For Maven Invoker
 
 ### 说明
@@ -12,7 +12,7 @@ Spring Boot Starter For Maven Invoker
 ``` xml
 <dependency>
 	<groupId>${project.groupId}</groupId>
-	<artifactId>spring-boot-starter-maven-invoker</artifactId>
+	<artifactId>maven-invoker-spring-boot-starter</artifactId>
 	<version>${project.version}</version>
 </dependency>
 ```
