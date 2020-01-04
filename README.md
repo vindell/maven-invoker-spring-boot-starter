@@ -13,7 +13,7 @@ Spring Boot Starter For Maven Invoker
 <dependency>
 	<groupId>com.github.hiwepy</groupId>
 	<artifactId>maven-invoker-spring-boot-starter</artifactId>
-	<version>${project.version}</version>
+	<version>$1.0.3.RELEASE</version>
 </dependency>
 ```
 
